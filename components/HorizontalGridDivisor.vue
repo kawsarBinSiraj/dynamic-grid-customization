@@ -32,8 +32,8 @@ const onMouseMove = (e) => {
         return;
     }
 
-    draggable.value.style.top = newTop + "px";
-    grid.value.style.setProperty("--top-h", topGridHeight + "px");
+    // draggable.value.style.top = newTop + "px";
+    container.value.style.setProperty("--top-h", topGridHeight + "px");
 };
 
 const onMouseUp = () => {
@@ -61,7 +61,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="horizontal-grid-container" ref="container">
+    <div
+        class="horizontal-grid-container"
+        style="--top-h: 200px; --bottom-h: 1fr"
+        :style="'--grid-gap:' + splitterGap + 'px'"
+        ref="container"
+    >
         <div
             ref="draggable"
             class="horizontal-draggable"
@@ -69,12 +74,7 @@ onUnmounted(() => {
         >
             &#8213;
         </div>
-        <div
-            class="horizontal-grid"
-            ref="grid"
-            style="--top-h: 1fr; --bottom-h: 1fr"
-            :style="'--grid-gap:' + splitterGap + 'px'"
-        >
+        <div class="horizontal-grid" ref="grid">
             <div class="horizontal-grid-item">
                 <div class="grid-content">
                     <p>
@@ -105,7 +105,7 @@ onUnmounted(() => {
         position: absolute;
         cursor: pointer;
         z-index: 100;
-        top: 50%;
+        top: calc(var(--top-h) + 8px);
         transform: translateY(-50%);
         opacity: 1;
         display: grid;
@@ -128,7 +128,7 @@ onUnmounted(() => {
             height: 100%;
 
             .grid-content {
-                height: 184px;
+                height: var(--top-h);
             }
 
             &.grid-splitter {

@@ -33,7 +33,7 @@ const onMouseMove = (e) => {
     }
 
     draggable.value.style.left = newLeft + "px";
-    grid.value.style.setProperty("--left-w", leftGridWidth + "px");
+    container.value.style.setProperty("--left-w", leftGridWidth + "px");
 };
 
 const onMouseUp = () => {
@@ -61,7 +61,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="vertical-grid-container" ref="container">
+    <div
+        class="vertical-grid-container"
+        style="--left-w: 1fr; --right-w: 1fr"
+        :style="'--grid-gap:' + splitterGap + 'px'"
+        ref="container"
+    >
         <div
             ref="draggable"
             class="vertical-draggable"
@@ -69,12 +74,7 @@ onUnmounted(() => {
         >
             &#x7c;
         </div>
-        <div
-            class="vertical-grid"
-            ref="grid"
-            style="--left-w: 1fr; --right-w: 1fr"
-            :style="'--grid-gap:' + splitterGap + 'px'"
-        >
+        <div class="vertical-grid" ref="grid">
             <div class="vertical-grid-item">
                 <div class="grid-content">
                     <p>
@@ -95,7 +95,9 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 .vertical-grid-container {
-    height: 100%;
+    --grid-box-h: 400px;
+    height: var(--grid-box-h);
+    position: relative;
 
     > .vertical-draggable {
         height: 100%;
@@ -113,6 +115,7 @@ onUnmounted(() => {
     > .vertical-grid {
         display: grid;
         grid-template-columns: var(--left-w) var(--grid-gap) var(--right-w);
+        grid-template-rows: auto;
         height: 100%;
         grid-gap: var(--grid-gap);
         position: relative;
